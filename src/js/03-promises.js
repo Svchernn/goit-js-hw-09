@@ -10,7 +10,6 @@ const refs = {
 const userAmount = refs.amountInp.value;
 const userDelay = refs.delayInp.value;
 const stepDelay = refs.stepInp.value;
-let promiseCounter = 0;
 
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
@@ -26,23 +25,38 @@ function createPromise(position, delay) {
     .then(({ position, delay }) => {
       Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
     })
-    .catch((position, delay) => {Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+    .catch(({ position, delay }) => {
+      Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
     });
 }
 
-// const intervalId = setInterval(() => {
-//   if (promiseCounter === USER_AMOUNT) {
-//     clearInterval(intervalId);
-//     return;
-//   }
-//   promiseCounter += 1;
-// }, STEP_DELAY);
-refs.submitBtn.addEventListener('click', createPromise);
+const promiseGenerate = (delay, step, amount) => {
+  let delayNext = 0;
+  for (let i = 1; i <= amount; i += 1) {
+    if (i === 1) {
+      delayNext = delay;
+    } else {
+      delayNext = Number(delay) + Number(step);
+    }
+    createPromise(i, delayNext);
+  }
+};
 
-createPromise(2, 1500)
-  .then(({ position, delay }) => {
-    console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-  })
-  .catch(({ position, delay }) => {
-    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-  });
+function handleSubmit(e) {
+  e.preventDefault();
+
+  const userAmount = refs.amountInp.value;
+  const userDelay = refs.delayInp.value;
+  const stepDelay = refs.stepInp.value;
+  promiseGenerate(userDelay, stepDelay, userAmount);
+}
+
+refs.submitBtn.addEventListener('click', handleSubmit);
+
+// createPromise(2, 1500)
+//   .then(({ position, delay }) => {
+//     console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+//   })
+//   .catch(({ position, delay }) => {
+//     console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+//   });
