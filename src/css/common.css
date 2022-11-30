@@ -33,7 +33,7 @@ button {
   font-weight: 700;
 }
 
-button[data-start] {
+div > button {
   padding: 12px;
   font-size: medium;
   font-weight: 700;
