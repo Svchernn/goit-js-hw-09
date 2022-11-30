@@ -45,6 +45,11 @@ const timer = {
     (this.isActive = true),
       (this.intervalId = setInterval(() => {
         let onCount = (startTime -= 1000);
+
+        if (onCount <= 0) {
+          this.stop();
+          return;
+        }
         const { days, hours, minutes, seconds } = convertMs(onCount);
         refs.days.textContent = `${days}`;
         refs.hours.textContent = `${hours}`;
@@ -53,10 +58,8 @@ const timer = {
       }, 1000));
   },
   stop() {
-    if (startTime <= 0) {
-      clearInterval(this.intervalId);
-      this.isActive = false;
-    }
+    clearInterval(this.intervalId);
+    this.isActive = false;
   },
 };
 
@@ -64,7 +67,7 @@ refs.startBtn.addEventListener('click', () => {
   timer.start();
 });
 
-timer.stop();
+// timer.stop();
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
