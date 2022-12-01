@@ -47,7 +47,7 @@ const timer = {
         let onCount = (startTime -= 1000);
 
         if (onCount <= 0) {
-          this.stop();
+          this.stop;
           return;
         }
         const { days, hours, minutes, seconds } = convertMs(onCount);
@@ -63,11 +63,7 @@ const timer = {
   },
 };
 
-refs.startBtn.addEventListener('click', () => {
-  timer.start();
-});
-
-// timer.stop();
+refs.startBtn.addEventListener('click', timer.start);
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time

@@ -10,13 +10,12 @@ const refs = {
   stopBtn: document.querySelector('button[data-stop]'),
 };
 
-console.log();
-
 const changeColor = event => {
+  refs.startBtn.disabled = true;
+  refs.stopBtn.disabled = false;
+
   timerId = setInterval(() => {
     refs.body.style.backgroundColor = getRandomHexColor(event);
-    refs.startBtn.disabled = true;
-    refs.stopBtn.disabled = false;
   }, 1000);
 };
 
